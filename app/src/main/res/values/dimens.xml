@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="default_margin">8dp</dimen>
+    <dimen name="edit_text_height">48dp</dimen>
+    <dimen name="image_height">48dp</dimen>
+    <dimen name="text_height_heading">24dp</dimen>
 </resources>
