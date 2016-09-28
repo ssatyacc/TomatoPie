@@ -1,5 +1,7 @@
 package hackerearth.satya.tomatopie.presenter;
 
+import java.util.List;
+
 import hackerearth.satya.tomatopie.model.City;
 
 /**
@@ -9,6 +11,8 @@ import hackerearth.satya.tomatopie.model.City;
 public interface LocationSelectionCallbackInterface {
 
     void onCityObtained(City city);
+
+    void onCitiesObtained(List<City> cities);
 
     void onFailure();
 }

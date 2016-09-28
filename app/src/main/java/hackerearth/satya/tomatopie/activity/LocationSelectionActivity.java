@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import hackerearth.satya.tomatopie.R;
 import hackerearth.satya.tomatopie.databinding.ActivityLocationSelectionBinding;
@@ -30,9 +31,7 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
         @Override
         public void run() {
             String locationName = B.locationEditText.getText().toString();
-            if (TextUtils.isEmpty(locationName)) {
-                return;
-            }
+            // Empty locationName will show popular cities
             presenter.onLocationManuallyEntered(locationName);
         }
     };
@@ -42,7 +41,6 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         B = DataBindingUtil.setContentView(this, R.layout.activity_location_selection);
         presenter = new LocationSelectionPresenter(this);
-
         B.imageLocation.setOnClickListener(this);
         B.textCurrentLocation.setOnClickListener(this);
         B.listPopularLocation.setOnItemSelectedListener(this);
@@ -57,9 +55,14 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
     }
 
     @Override
-    public void onLocationExists(City city) {
+    public void onLocationExist(City city) {
         MainActivity.start(this, city);
         finish();
+    }
+
+    @Override
+    public void onLocationsExist(List<City> cities) {
+        // TODO: 9/28/16 Fill the popular cities adapter with this data!
     }
 
     @Override

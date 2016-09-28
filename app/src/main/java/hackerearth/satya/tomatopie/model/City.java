@@ -13,6 +13,8 @@ public class City {
     public int stateId;
     public String stateName;
     public String stateCode;
+    public int icon;
+
     public City(int id, String name, int countryId, String countryName, int isState,
                 int stateId, String stateName, String stateCode) {
         this.id = id;
@@ -23,5 +25,13 @@ public class City {
         this.stateId = stateId;
         this.stateName = stateName;
         this.stateCode = stateCode;
+    }
+
+    public int getIcon() {
+        return icon;
+    }
+
+    public void setIcon(int icon) {
+        this.icon = icon;
     }
 }

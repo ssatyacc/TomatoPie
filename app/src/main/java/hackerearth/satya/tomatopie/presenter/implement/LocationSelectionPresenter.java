@@ -1,5 +1,7 @@
 package hackerearth.satya.tomatopie.presenter.implement;
 
+import java.util.List;
+
 import hackerearth.satya.tomatopie.model.City;
 import hackerearth.satya.tomatopie.presenter.LocationSelectionCallbackInterface;
 import hackerearth.satya.tomatopie.presenter.LocationSelectionDataInterface;
@@ -38,12 +40,17 @@ public class LocationSelectionPresenter implements LocationSelectionInterface,
 
     @Override
     public void onLocationManuallyEntered(String locationName) {
-        // TODO: 9/28/16 Search with the API and report if there are any valid restraunts
+        dataInterface.getCitiesByLocation(locationName);
     }
 
     @Override
     public void onCityObtained(City city) {
-        viewInterface.onLocationExists(city);
+        viewInterface.onLocationExist(city);
+    }
+
+    @Override
+    public void onCitiesObtained(List<City> cities) {
+        viewInterface.onLocationsExist(cities);
     }
 
     @Override

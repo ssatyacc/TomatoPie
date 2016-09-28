@@ -1,5 +1,7 @@
 package hackerearth.satya.tomatopie.presenter;
 
+import java.util.List;
+
 import hackerearth.satya.tomatopie.model.City;
 
 /**
@@ -7,7 +9,9 @@ import hackerearth.satya.tomatopie.model.City;
  */
 
 public interface LocationSelectionViewInterface {
-    void onLocationExists(City city);
+    void onLocationExist(City city);
+
+    void onLocationsExist(List<City> cities);
 
     void onLocationInvalid();
 
