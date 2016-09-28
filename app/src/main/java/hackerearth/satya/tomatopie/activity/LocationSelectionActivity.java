@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import hackerearth.satya.tomatopie.R;
+import hackerearth.satya.tomatopie.adapter.PopularCitiesListAdapter;
 import hackerearth.satya.tomatopie.databinding.ActivityLocationSelectionBinding;
 import hackerearth.satya.tomatopie.model.City;
 import hackerearth.satya.tomatopie.presenter.LocationSelectionViewInterface;
@@ -35,6 +37,7 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
             presenter.onLocationManuallyEntered(locationName);
         }
     };
+    private List<City> citiesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
         B.textCurrentLocation.setOnClickListener(this);
         B.listPopularLocation.setOnItemSelectedListener(this);
         B.locationEditText.addTextChangedListener(this);
+        B.listPopularLocation.setAdapter(new PopularCitiesListAdapter(this, citiesList));
     }
 
     @Override
@@ -62,7 +66,9 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
 
     @Override
     public void onLocationsExist(List<City> cities) {
-        // TODO: 9/28/16 Fill the popular cities adapter with this data!
+        citiesList.clear();
+        citiesList.addAll(cities);
+        ((PopularCitiesListAdapter) B.listPopularLocation.getAdapter()).setCities(cities);
     }
 
     @Override
