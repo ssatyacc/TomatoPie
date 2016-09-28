@@ -23,8 +23,8 @@ public class PopularCitiesListAdapter extends BaseAdapter {
     private final List<City> cities;
     private final LayoutInflater inflater;
 
-    public PopularCitiesListAdapter(Context context, List<City> cities) {
-        this.cities = cities;
+    public PopularCitiesListAdapter(Context context) {
+        this.cities = PopularCity.getCities();
         inflater = LayoutInflater.from(context);
     }
 
@@ -40,7 +40,7 @@ public class PopularCitiesListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return cities.size();
     }
 
     @Override

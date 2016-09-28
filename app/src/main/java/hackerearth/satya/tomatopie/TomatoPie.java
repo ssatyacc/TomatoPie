@@ -9,17 +9,24 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by Satya Chaitanya on 9/27/16.
- *
+ * <p>
  * copied from http://www.androidhive.info/2014/05/android-working-with-volley-library-1/
  */
 
 public class TomatoPie extends Application {
     private static final String TAG = "TomatoPie";
+
     private static TomatoPie mInstance;
     private RequestQueue mRequestQueue;
 
     public static synchronized TomatoPie getInstance() {
         return mInstance;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mInstance = this;
     }
 
     public RequestQueue getRequestQueue() {

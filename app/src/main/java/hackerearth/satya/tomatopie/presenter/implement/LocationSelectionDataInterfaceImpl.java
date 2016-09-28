@@ -1,5 +1,9 @@
 package hackerearth.satya.tomatopie.presenter.implement;
 
+import android.util.ArrayMap;
+import android.util.Log;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -10,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import hackerearth.satya.tomatopie.TomatoPie;
 import hackerearth.satya.tomatopie.model.City;
@@ -23,8 +28,15 @@ import hackerearth.satya.tomatopie.presenter.LocationSelectionDataInterface;
 class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterface {
 
     private static final String CITY_BY_PLACE_URL = "https://developers.zomato.com/api/v2.1/cities";
+    private static final String API_KEY = "d4a9757d5f44244f8dd9d212ed972363";
     private static final String TAG = "LocationSelectionDataIn";
-    LocationSelectionCallbackInterface callbackInterface;
+    private static final Map<String, String> mHeaders = new ArrayMap<String, String>();
+
+    static {
+        mHeaders.put("user-key", API_KEY);
+    }
+
+    private LocationSelectionCallbackInterface callbackInterface;
 
     LocationSelectionDataInterfaceImpl(LocationSelectionCallbackInterface callbackInterface) {
         this.callbackInterface = callbackInterface;
@@ -36,11 +48,13 @@ class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterfa
                 "?q=" +
                 locationName +
                 "&count=10";
+        Log.d(TAG, "getCitiesByLocation: " + url);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (response != null && response.has("location_suggestions")) {
+                        Log.d(TAG, "onResponse: " + response.toString());
+                        if (response.has("location_suggestions")) {
                             try {
                                 JSONArray locations = response
                                         .getJSONArray("location_suggestions");
@@ -73,7 +87,12 @@ class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterfa
                 error.printStackTrace();
                 callbackInterface.onFailure();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
         TomatoPie.getInstance().addToRequestQueue(request);
     }
 
@@ -83,11 +102,13 @@ class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterfa
                 "?q=" +
                 locationName +
                 "&count=1";
+        Log.d(TAG, "getCitiesByLocation: " + url);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (response != null && response.has("location_suggestions")) {
+                        Log.d(TAG, "onResponse: " + response.toString());
+                        if (response.has("location_suggestions")) {
                             try {
                                 JSONObject location = response
                                         .getJSONArray("location_suggestions").getJSONObject(0);
@@ -113,23 +134,30 @@ class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterfa
                 error.printStackTrace();
                 callbackInterface.onFailure();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
         TomatoPie.getInstance().addToRequestQueue(request);
     }
 
     @Override
     public void getCityByLatLng(double lat, double lng) {
         String url = CITY_BY_PLACE_URL +
-                "?alt=" +
+                "?lat=" +
                 lat +
-                "&lng=" +
+                "&lon=" +
                 lng +
                 "&count=1";
+        Log.d(TAG, "getCitiesByLocation: " + url);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        if (response != null && response.has("location_suggestions")) {
+                        Log.d(TAG, "onResponse: " + response.toString());
+                        if (response.has("location_suggestions")) {
                             try {
                                 JSONObject location = response
                                         .getJSONArray("location_suggestions").getJSONObject(0);
@@ -155,7 +183,12 @@ class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterfa
                 error.printStackTrace();
                 callbackInterface.onFailure();
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
         TomatoPie.getInstance().addToRequestQueue(request);
     }
 }

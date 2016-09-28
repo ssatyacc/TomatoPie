@@ -35,7 +35,7 @@ public class LocationSelectionPresenter implements LocationSelectionInterface,
 
     @Override
     public void onUseCurrentLocationSelected() {
-        // TODO: 9/28/16 Ask for GPS if not exists and follow
+        viewInterface.onGpsEnabled();
     }
 
     @Override
