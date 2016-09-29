@@ -70,4 +70,20 @@ public class Functions {
         final List<String> providers = mgr.getAllProviders();
         return providers != null && providers.contains(LocationManager.NETWORK_PROVIDER);
     }
+
+    public static String concatStrings(List<String> strings) {
+        return concatStrings(strings, ", ");
+    }
+
+    public static String concatStrings(List<String> strings, String exp) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < strings.size(); i++) {
+            builder.append(strings.get(i));
+            if (i != strings.size() - 1) {
+                builder.append(exp);
+            }
+        }
+
+        return builder.toString();
+    }
 }

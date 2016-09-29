@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -44,10 +45,10 @@ class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterfa
 
     @Override
     public void getCitiesByLocation(String locationName) {
-        String url = CITY_BY_PLACE_URL +
+        String url = URLEncoder.encode(CITY_BY_PLACE_URL +
                 "?q=" +
                 locationName +
-                "&count=10";
+                "&count=10");
         Log.d(TAG, "getCitiesByLocation: " + url);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -98,10 +99,10 @@ class LocationSelectionDataInterfaceImpl implements LocationSelectionDataInterfa
 
     @Override
     public void getCityByLocation(String locationName) {
-        String url = CITY_BY_PLACE_URL +
+        String url = URLEncoder.encode(CITY_BY_PLACE_URL +
                 "?q=" +
                 locationName +
-                "&count=1";
+                "&count=1");
         Log.d(TAG, "getCitiesByLocation: " + url);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

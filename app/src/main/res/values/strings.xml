@@ -4,6 +4,10 @@
     <string name="loading_message">Loading ...</string>
     <string name="hint_location">Enter Location</string>
     <string name="popular_cities">Popular Cities</string>
-    <string name="text_use_location">Use my location</string>
+    <string name="text_use_location">Or Else, Use current location!</string>
     <string name="dummy_popular_city_name">Bengaluru</string>
+    <string name="dummy_city">DUMMY_CITY</string>
+    <string name="foodie_index">Foodie Index : %s</string>
+    <string name="nightlife_index">NightLife Index : %s</string>
+    <string name="popularity">Popularity : %s</string>
 </resources>
