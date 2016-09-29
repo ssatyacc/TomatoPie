@@ -1,7 +1,10 @@
 package hackerearth.satya.tomatopie.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import hackerearth.satya.tomatopie.R;
 import hackerearth.satya.tomatopie.model.RestaurantInfo;
@@ -23,21 +27,24 @@ import hackerearth.satya.tomatopie.model.RestaurantInfo;
  */
 
 public class RestaurantsListAdapter extends BaseAdapter {
-    LayoutInflater inflater;
-    private List<RestaurantInfo> restaurants = new ArrayList<>();
+
+    private static final String TAG = "RestaurantsListAdapter";
+
+    private LayoutInflater mInflater;
+    private List<RestaurantInfo> mRestaurantsList = new ArrayList<>();
 
     public RestaurantsListAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return restaurants.size();
+        return mRestaurantsList.size();
     }
 
     @Override
     public RestaurantInfo getItem(int position) {
-        return restaurants.get(position);
+        return mRestaurantsList.get(position);
     }
 
     @Override
@@ -52,7 +59,7 @@ public class RestaurantsListAdapter extends BaseAdapter {
         Context context = parent.getContext();
 
         if (v == null) {
-            v = inflater.inflate(R.layout.row_restaurant, null);
+            v = mInflater.inflate(R.layout.row_restaurant, null);
             vh = new ViewHolder();
             vh.layout = (RelativeLayout) v.findViewById(R.id.layout_restaurant);
             vh.title = (TextView) v.findViewById(R.id.title);
@@ -64,22 +71,22 @@ public class RestaurantsListAdapter extends BaseAdapter {
             vh.onlineDelivery = (TextView) v.findViewById(R.id.hasOnlineDelivery);
             vh.deliveringNow = (TextView) v.findViewById(R.id.isDeliverignNow);
             vh.tableBooking = (TextView) v.findViewById(R.id.hasTableBooking);
-            vh.photosUrl = (ImageView) v.findViewById(R.id.photos);
-            vh.menuUrl = (ImageView) v.findViewById(R.id.menu);
+            vh.featuredImage = (ImageView) v.findViewById(R.id.photos);
+            vh.thumb = (ImageView) v.findViewById(R.id.menu);
 
             v.setTag(vh);
         } else {
             vh = (ViewHolder) v.getTag();
         }
-        RestaurantInfo restaurantInfo = getItem(position);
+        final RestaurantInfo restaurantInfo = getItem(position);
 
         vh.title.setText(restaurantInfo.name);
         vh.locality.setText(restaurantInfo.locality);
         vh.address.setText(restaurantInfo.address);
         vh.cuisines.setText(restaurantInfo.cuisines);
-        vh.rating.setText("Rating- " + restaurantInfo.rating);
-        vh.costForTwo.setText("Cost for 2:" + restaurantInfo.costForTwo + " " +
-                restaurantInfo.currencyUnits);
+        vh.rating.setText(restaurantInfo.rating + "(" + restaurantInfo.votes + "votes)");
+        vh.costForTwo.setText(restaurantInfo.costForTwo +
+                restaurantInfo.currencyUnits + " approx. for 2");
         vh.onlineDelivery.setText("OnlineDelivery - " +
                 (restaurantInfo.hasOnlineDelivery == 1 ? "Yes" : "No"));
         vh.deliveringNow.setText("Delivering Now - " +
@@ -87,26 +94,39 @@ public class RestaurantsListAdapter extends BaseAdapter {
         vh.tableBooking.setText("Table Booking - " +
                 (restaurantInfo.hasTableBooking == 1 ? "Yes" : "No"));
 
-        if (!TextUtils.isEmpty(restaurantInfo.photosUrl)) {
-            vh.photosUrl.setVisibility(View.VISIBLE);
-            Picasso.with(context).load(restaurantInfo.photosUrl).error(R.mipmap.ic_launcher).into(vh.photosUrl);
+        if (!TextUtils.isEmpty(restaurantInfo.featuredImage)) {
+            Log.d(TAG, "getView: " + restaurantInfo.photosUrl);
+            vh.featuredImage.setVisibility(View.VISIBLE);
+            Picasso.with(context).load(restaurantInfo.featuredImage).error(R.mipmap.ic_launcher).into(vh.featuredImage);
         } else {
-            vh.photosUrl.setVisibility(View.GONE);
+            vh.featuredImage.setVisibility(View.GONE);
         }
 
-        if (!TextUtils.isEmpty(restaurantInfo.menuUrl)) {
-            vh.menuUrl.setVisibility(View.VISIBLE);
-            Picasso.with(context).load(restaurantInfo.menuUrl).error(R.mipmap.ic_launcher).into(vh.menuUrl);
+        if (!TextUtils.isEmpty(restaurantInfo.thumb)) {
+            vh.thumb.setVisibility(View.VISIBLE);
+            Picasso.with(context).load(restaurantInfo.thumb).error(R.mipmap.ic_launcher).into(vh.thumb);
         } else {
-            vh.menuUrl.setVisibility(View.GONE);
+            vh.thumb.setVisibility(View.GONE);
         }
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                String uri = String.format(Locale.ENGLISH, "geo:0,0?q=%f,%f(%s)", restaurantInfo.location[0], restaurantInfo.location[1], restaurantInfo.name);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                context.startActivity(intent);
+            }
+        };
+        vh.locality.setOnClickListener(listener);
+        vh.address.setOnClickListener(listener);
 
         return v;
     }
 
-    public void setRestaurants(List<RestaurantInfo> restaurants) {
-        this.restaurants.clear();
-        this.restaurants.addAll(restaurants);
+    public void setmRestaurantsList(List<RestaurantInfo> mRestaurantsList) {
+        this.mRestaurantsList.clear();
+        this.mRestaurantsList.addAll(mRestaurantsList);
         notifyDataSetChanged();
     }
 
@@ -121,7 +141,7 @@ public class RestaurantsListAdapter extends BaseAdapter {
         TextView onlineDelivery;
         TextView deliveringNow;
         TextView tableBooking;
-        ImageView photosUrl;
-        ImageView menuUrl;
+        ImageView featuredImage;
+        ImageView thumb;
     }
 }

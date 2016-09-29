@@ -21,6 +21,15 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
+        <ImageView
+            android:id="@+id/imageChangeLocation"
+            android:layout_width="@dimen/text_height_heading"
+            android:layout_height="@dimen/text_height_heading"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_toRightOf="@+id/cityName"
+            android:src="@drawable/edit"/>
+
         <TextView
             android:id="@+id/popularity"
             android:layout_width="wrap_content"
@@ -43,12 +52,11 @@
 
         <TextView
             android:id="@+id/topCuisines"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/cityName"
-            android:maxLines="2"
             android:text="@string/nightlife_index"/>
     </RelativeLayout>
 </layout>

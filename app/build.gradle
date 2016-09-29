@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'ZOMATO_API_KEY', '"d4a9757d5f44244f8dd9d212ed972363"'
     }
     buildTypes {
         release {
@@ -20,6 +21,8 @@ android {
     dataBinding {
         enabled = true
     }
+
+
 }
 
 dependencies {

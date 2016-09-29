@@ -25,12 +25,14 @@ import hackerearth.satya.tomatopie.utils.Functions;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, MainActivityViewInterface {
 
-    ActivityMainBinding B;
-    MainActivityPresenter presenter;
-    View header;
+    private ActivityMainBinding B;
+    private MainActivityPresenter mPresenter;
+    private View mHeader;
+    private RestaurantsListAdapter mAdapter;
 
     public static void start(Context context, City city) {
         Intent starter = new Intent(context, MainActivity.class);
+        starter.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         new SharedPrefs(context).setCityName(city.name);
         context.startActivity(starter);
     }
@@ -46,15 +48,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             finish();
         }
 
-        presenter = new MainActivityPresenter(this);
+        mPresenter = new MainActivityPresenter(this);
 
-        header = getLayoutInflater().inflate(R.layout.view_header, null);
-        ((TextView) header.findViewById(R.id.cityName)).setText(savedCity);
-        B.listRestraunts.addHeaderView(header);
-        B.listRestraunts.setAdapter(new RestaurantsListAdapter(this));
+        mHeader = getLayoutInflater().inflate(R.layout.view_header, null);
+        ((TextView) mHeader.findViewById(R.id.cityName)).setText(savedCity);
+        B.listRestraunts.addHeaderView(mHeader);
+        mAdapter = new RestaurantsListAdapter(this);
+        B.listRestraunts.setAdapter(mAdapter);
 
         B.listRestraunts.setOnItemClickListener(this);
-        presenter.onCreated(savedCity);
+        mPresenter.onCreated(savedCity);
     }
 
     @Override
@@ -78,13 +81,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void showRestaurantsInfo(CityStats stats, List<RestaurantInfo> restaurantInfo) {
-        ((TextView) header.findViewById(R.id.nightLifeIndex))
+        ((TextView) mHeader.findViewById(R.id.nightLifeIndex))
                 .setText(String.format(getString(R.string.nightlife_index), stats.nightLifeIndex));
-        ((TextView) header.findViewById(R.id.popularity))
+        ((TextView) mHeader.findViewById(R.id.popularity))
                 .setText(String.format(getString(R.string.popularity), stats.nightLifeIndex));
 
-        ((TextView) header.findViewById(R.id.topCuisines)).setText(Functions.concatStrings(stats.topCuisines));
-        ((RestaurantsListAdapter) B.listRestraunts.getAdapter()).setRestaurants(restaurantInfo);
+        ((TextView) mHeader.findViewById(R.id.topCuisines)).setText("Cuisines - \n" + Functions.concatStrings(stats.topCuisines));
+        mAdapter.setmRestaurantsList(restaurantInfo);
+
+        mHeader.findViewById(R.id.imageChangeLocation).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocationSelectionActivity.start(MainActivity.this);
+            }
+        });
 
         findViewById(R.id.loading).setVisibility(View.GONE);
         findViewById(R.id.retry).setVisibility(View.GONE);
@@ -93,6 +103,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void showRestaurant(RestaurantInfo info) {
-
+        // TODO: 9/29/16 Show Restaurant Info
     }
 }

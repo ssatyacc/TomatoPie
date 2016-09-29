@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import hackerearth.satya.tomatopie.BuildConfig;
 import hackerearth.satya.tomatopie.TomatoPie;
 import hackerearth.satya.tomatopie.model.CityStats;
 import hackerearth.satya.tomatopie.model.RestaurantInfo;
@@ -35,11 +36,10 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
     private static final String LOCATION_URL = "https://developers.zomato.com/api/v2.1/locations";
     private static final String LOCATION_DETAILS_URL =
             "https://developers.zomato.com/api/v2.1/location_details";
-    private static final String API_KEY = "d4a9757d5f44244f8dd9d212ed972363";
-    private static final Map<String, String> mHeaders = new ArrayMap<String, String>();
+    private static final Map<String, String> headers = new ArrayMap<String, String>();
 
     static {
-        mHeaders.put("user-key", API_KEY);
+        headers.put("user-key", BuildConfig.ZOMATO_API_KEY);
     }
 
     private MainActivityCallbackInterface callbackInterface;
@@ -50,9 +50,9 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
 
     @Override
     public void getCityId(String name) {
-        String url = URLEncoder.encode(LOCATION_URL +
+        String url = LOCATION_URL +
                 "?query=" +
-                name);
+                URLEncoder.encode(name);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -82,7 +82,7 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return mHeaders;
+                return headers;
             }
         };
         TomatoPie.getInstance().addToRequestQueue(request);
@@ -90,11 +90,11 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
 
     @Override
     public void getCityInfo(final String name, int entityId, String entityName) {
-        String url = URLEncoder.encode(LOCATION_DETAILS_URL +
+        String url = LOCATION_DETAILS_URL +
                 "?entity_id=" +
                 entityId +
                 "&entity_type=" +
-                entityName);
+                entityName;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -116,16 +116,17 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
 
                             JSONArray restaurantsArray = response.getJSONArray("best_rated_restaurant");
                             for (int j = 0; j < restaurantsArray.length(); j++) {
+                                JSONObject jsonObject = restaurantsArray.getJSONObject(j).getJSONObject("restaurant");
                                 try {
-                                    JSONObject jsonObject = restaurantsArray.getJSONObject(j);
                                     RestaurantInfo restaurantInfo = new RestaurantInfo();
                                     restaurantInfo.id = jsonObject.getString("id");
                                     restaurantInfo.name = jsonObject.getString("name");
                                     restaurantInfo.url = jsonObject.getString("url");
-                                    restaurantInfo.address = jsonObject.getString("address");
-                                    restaurantInfo.locality = jsonObject.getString("locality");
+                                    restaurantInfo.address = jsonObject.getJSONObject("location").getString("address");
+                                    restaurantInfo.locality = jsonObject.getJSONObject("location").getString("locality");
                                     restaurantInfo.location = new double[]{
-                                            jsonObject.getDouble("latitude"), jsonObject.getDouble("longitude")
+                                            jsonObject.getJSONObject("location").getDouble("latitude"),
+                                            jsonObject.getJSONObject("location").getDouble("longitude")
                                     };
                                     restaurantInfo.cuisines = jsonObject.getString("cuisines");
                                     restaurantInfo.costForTwo = jsonObject.getInt("average_cost_for_two");
@@ -145,6 +146,7 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
                                     restaurantInfos.add(restaurantInfo);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    Log.d(TAG, "onResponse: " + jsonObject.toString());
                                 }
                             }
 
@@ -165,7 +167,7 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return mHeaders;
+                return headers;
             }
         };
         TomatoPie.getInstance().addToRequestQueue(request);

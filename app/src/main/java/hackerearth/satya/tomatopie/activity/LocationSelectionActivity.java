@@ -34,22 +34,22 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 007;
     private final Handler submitLocationManualHandler = new Handler();
     private ActivityLocationSelectionBinding B;
-    private LocationSelectionPresenter presenter;
+    private LocationSelectionPresenter mPresenter;
     private final Runnable submitLocationManually = new Runnable() {
         @Override
         public void run() {
             String locationName = B.locationEditText.getText().toString();
             // Empty locationName will show popular cities
-            presenter.onLocationManuallyEntered(locationName);
+            mPresenter.onLocationManuallyEntered(locationName);
         }
     };
-    private List<City> citiesList = new ArrayList<>();
+    private List<City> mCitiesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         B = DataBindingUtil.setContentView(this, R.layout.activity_location_selection);
-        presenter = new LocationSelectionPresenter(this);
+        mPresenter = new LocationSelectionPresenter(this);
         B.imageLocation.setOnClickListener(this);
         B.textCurrentLocation.setOnClickListener(this);
         B.listPopularLocation.setAdapter(new PopularCitiesListAdapter(this));
@@ -71,7 +71,7 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
                                 Manifest.permission.ACCESS_COARSE_LOCATION},
                         LocationSelectionActivity.REQUEST_CODE_LOCATION_PERMISSION);
             } else {
-                presenter.onUseCurrentLocationSelected();
+                mPresenter.onUseCurrentLocationSelected();
             }
         }
     }
@@ -84,8 +84,8 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
 
     @Override
     public void onLocationsExist(List<City> cities) {
-        citiesList.clear();
-        citiesList.addAll(cities);
+        mCitiesList.clear();
+        mCitiesList.addAll(cities);
         ((PopularCitiesListAdapter) B.listPopularLocation.getAdapter()).setCities(cities);
     }
 
@@ -102,7 +102,7 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
             onGpsNotEnabled();
             return;
         }
-        presenter.onLocationSelected(location[0], location[1]);
+        mPresenter.onLocationSelected(location[0], location[1]);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class LocationSelectionActivity extends AppCompatActivity implements View
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        presenter.onLocationSelected((
+        mPresenter.onLocationSelected((
                 (PopularCitiesListAdapter) B.listPopularLocation.getAdapter())
                 .getItem(position).name);
     }
