@@ -10,5 +10,5 @@ public interface MainActivityDataInterface {
 
     void getCityInfo(String name, int entityId, String entityName);
 
-    void getRestrauntDetails(String name);
+    void getRestaurantDetails(String name);
 }

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_restaurant"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/dummy_city"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/locality"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/dummy_city"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/locality"
+        android:layout_centerHorizontal="true"
+        android:text="@string/dummy_city"/>
+
+    <TextView
+        android:id="@+id/cuisines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/address"
+        android:maxLines="2"
+        android:text="@string/dummy_city"
+        />
+
+    <TextView
+        android:id="@+id/costForTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/address"
+        android:maxLines="1"
+        android:text="@string/dummy_city"
+        />
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/costForTwo"
+        android:maxLines="1"
+        android:text="@string/dummy_city"
+        />
+
+    <TextView
+        android:id="@+id/hasTableBooking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rating"
+        android:layout_marginTop="@dimen/default_margin"
+        android:maxLines="1"
+        android:text="@string/dummy_city"
+        />
+
+    <TextView
+        android:id="@+id/hasOnlineDelivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/hasTableBooking"
+        android:maxLines="1"
+        android:text="@string/dummy_city"
+        />
+
+    <TextView
+        android:id="@+id/isDeliverignNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/hasOnlineDelivery"
+        android:maxLines="1"
+        android:text="@string/dummy_city"
+        />
+
+    <ImageView
+        android:id="@+id/photos"
+        android:layout_width="@dimen/image_height"
+        android:layout_height="@dimen/image_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cuisines"
+        android:layout_marginTop="@dimen/default_margin"
+        app:srcCompat="@mipmap/ic_launcher"/>
+
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_width="@dimen/image_height"
+        android:layout_height="@dimen/image_height"
+        android:layout_below="@+id/cuisines"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_toEndOf="@+id/photos"
+        android:layout_toRightOf="@+id/photos"
+        app:srcCompat="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/photos"
+        android:layout_marginTop="@dimen/default_margin"
+        android:text="@string/reviews"/>
+
+</RelativeLayout>

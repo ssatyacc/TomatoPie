@@ -12,7 +12,7 @@ public class RestaurantInfo {
     public String address;
     public String locality;
     public double[] location;
-    public String[] cuisines;
+    public String cuisines;
     public int costForTwo;
     public int costCategory;
     public String currencyUnits;

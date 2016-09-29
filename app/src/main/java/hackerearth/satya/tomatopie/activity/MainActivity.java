@@ -14,7 +14,7 @@ import java.util.List;
 
 import hackerearth.satya.tomatopie.R;
 import hackerearth.satya.tomatopie.SharedPrefs;
-import hackerearth.satya.tomatopie.adapter.RestrauntsListAdapter;
+import hackerearth.satya.tomatopie.adapter.RestaurantsListAdapter;
 import hackerearth.satya.tomatopie.databinding.ActivityMainBinding;
 import hackerearth.satya.tomatopie.model.City;
 import hackerearth.satya.tomatopie.model.CityStats;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         header = getLayoutInflater().inflate(R.layout.view_header, null);
         ((TextView) header.findViewById(R.id.cityName)).setText(savedCity);
         B.listRestraunts.addHeaderView(header);
-        B.listRestraunts.setAdapter(new RestrauntsListAdapter());
+        B.listRestraunts.setAdapter(new RestaurantsListAdapter(this));
 
         B.listRestraunts.setOnItemClickListener(this);
         presenter.onCreated(savedCity);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setText(String.format(getString(R.string.popularity), stats.nightLifeIndex));
 
         ((TextView) header.findViewById(R.id.topCuisines)).setText(Functions.concatStrings(stats.topCuisines));
-        ((RestrauntsListAdapter) B.listRestraunts.getAdapter()).setRestaurants(restaurantInfo);
+        ((RestaurantsListAdapter) B.listRestraunts.getAdapter()).setRestaurants(restaurantInfo);
 
         findViewById(R.id.loading).setVisibility(View.GONE);
         findViewById(R.id.retry).setVisibility(View.GONE);

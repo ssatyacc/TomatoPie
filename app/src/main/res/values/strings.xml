@@ -10,4 +10,5 @@
     <string name="foodie_index">Foodie Index : %s</string>
     <string name="nightlife_index">NightLife Index : %s</string>
     <string name="popularity">Popularity : %s</string>
+    <string name="reviews"><u>Reviews ></u></string>
 </resources>
