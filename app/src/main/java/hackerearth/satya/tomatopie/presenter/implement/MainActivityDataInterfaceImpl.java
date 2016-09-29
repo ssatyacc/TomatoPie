@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -149,7 +150,7 @@ class MainActivityDataInterfaceImpl implements MainActivityDataInterface {
                                     Log.d(TAG, "onResponse: " + jsonObject.toString());
                                 }
                             }
-
+                            Collections.sort(restaurantInfos);
                             callbackInterface.onCityDetailsSuccess(stats, restaurantInfos);
                             return;
                         } catch (JSONException e) {

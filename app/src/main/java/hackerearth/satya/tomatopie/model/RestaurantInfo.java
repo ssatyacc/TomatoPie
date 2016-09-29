@@ -4,7 +4,7 @@ package hackerearth.satya.tomatopie.model;
  * Created by Satya Chaitanya on 9/29/16.
  */
 
-public class RestaurantInfo {
+public class RestaurantInfo implements Comparable<RestaurantInfo> {
 
     public String id;
     public String name;
@@ -29,4 +29,25 @@ public class RestaurantInfo {
     public String photosUrl;
     public String menuUrl;
     public String featuredImage;
+
+    @Override
+    public int compareTo(RestaurantInfo o) {
+        if (rating > o.rating) {
+            return -1;
+        }
+
+        if (rating == o.rating) {
+            if (votes > o.votes) {
+                return -1;
+            }
+
+            if (votes == o.votes) {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        return 1;
+    }
 }
